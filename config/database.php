@@ -1,5 +1,11 @@
 <?php
 
+$databaseOptions = parse_url(env('DATABASE_URL'));
+
+if ($databaseOptions['scheme'] === 'postgres') {
+    $databaseOptions['scheme'] = 'pgsql';
+}
+
 return [
 
     /*
@@ -50,6 +56,20 @@ return [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
+        ],
+
+        'database' => [
+            'driver' => $databaseOptions['scheme'],
+            'host' => $databaseOptions['host'],
+            'port' => $databaseOptions['port'],
+            'database' => ltrim($databaseOptions['path'],'/'),
+            'username' => $databaseOptions['user'],
+            'password' => $databaseOptions['pass'],
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
         ],
 
         'mysql' => [
