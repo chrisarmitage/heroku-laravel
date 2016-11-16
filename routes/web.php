@@ -17,7 +17,15 @@ Route::get('/', function () {
 });
 
 Route::get('/items', function (Request $request) {
-    return response()->json(\App\Item::all());
+    $term = $request->input('q');
+
+    if ($term !== '') {
+        $results = \App\Item::where('name', 'LIKE', "%{$term}%")->get();
+    } else {
+        $results = \App\Item::all();
+    }
+
+    return response()->json($results);
 });
 
 Route::get('/items/{id}', function ($id) {
