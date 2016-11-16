@@ -13,10 +13,10 @@
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-Route::get('/items', function (Request $request) {
+Route::get('/api/items', function (Request $request) {
     $term = $request->input('q');
 
     if ($term !== '') {
@@ -28,6 +28,6 @@ Route::get('/items', function (Request $request) {
     return response()->json($results);
 });
 
-Route::get('/items/{id}', function ($id) {
+Route::get('/api/items/{id}', function ($id) {
     return response()->json(\App\Item::find($id));
 });
